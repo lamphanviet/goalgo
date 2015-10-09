@@ -1,0 +1,18 @@
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+*.o
+*.a
+*.so
+
+# Folders
+_obj
+_test
+
+# IntelliJ auto generated files
+.idea
+*.iml
+
+# All build generated files and report
+build/
+# vim swap files
+/**/*.swp
+/**/*.swo
