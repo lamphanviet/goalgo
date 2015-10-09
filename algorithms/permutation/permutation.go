@@ -79,8 +79,8 @@ func PrevFloat64s(a []float64) bool { return Prev(Float64Slice(a)) }
 func NextStrings(a []string) bool { return Next(StringSlice(a)) }
 func PrevStrings(a []string) bool { return Prev(StringSlice(a)) }
 
-func NextBytes(a []string) bool { return Next(ByteSlice(a)) }
-func PrevBytes(a []string) bool { return Prev(ByteSlice(a)) }
+func NextBytes(a []byte) bool { return Next(ByteSlice(a)) }
+func PrevBytes(a []byte) bool { return Prev(ByteSlice(a)) }
 
 // Convenience types for common cases
 
