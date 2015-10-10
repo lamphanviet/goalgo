@@ -73,6 +73,9 @@ func Prev(data Interface) bool {
 func NextInts(a []int) bool { return Next(IntSlice(a)) }
 func PrevInts(a []int) bool { return Prev(IntSlice(a)) }
 
+func NextInts64(a []int64) bool { return Next(Int64Slice(a)) }
+func PrevInts64(a []int64) bool { return Prev(Int64Slice(a)) }
+
 func NextFloat64s(a []float64) bool { return Next(Float64Slice(a)) }
 func PrevFloat64s(a []float64) bool { return Prev(Float64Slice(a)) }
 
@@ -94,13 +97,22 @@ func (p IntSlice) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
 func (p IntSlice) Next() bool { return Next(p) }
 func (p IntSlice) Prev() bool { return Prev(p) }
 
+// Int64Slice attaches the methods of Interface to []int64
+type Int64Slice []int
+
+func (p Int64Slice) Len() int           { return len(p) }
+func (p Int64Slice) Less(i, j int) bool { return p[i] < p[j] }
+func (p Int64Slice) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
+
+func (p Int64Slice) Next() bool { return Next(p) }
+func (p Int64Slice) Prev() bool { return Prev(p) }
+
 // Float64Slice attaches the methods of Interface to []float64
 type Float64Slice []float64
 
 func (p Float64Slice) Len() int           { return len(p) }
 func (p Float64Slice) Less(i, j int) bool { return p[i] < p[j] || isNaN(p[i]) && !isNaN(p[j]) }
 func (p Float64Slice) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
-
 // isNaN is a copy of math.IsNaN to avoid a dependency on the math package.
 func isNaN(f float64) bool {
 	return f != f

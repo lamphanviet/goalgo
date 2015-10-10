@@ -1,5 +1,4 @@
 // Copyright 2015 @lamphanviet. All rights reserved.
-
 package permutation_test
 
 import (
