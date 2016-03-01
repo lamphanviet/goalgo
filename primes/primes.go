@@ -6,11 +6,11 @@ package primes
 import (
 	"math/rand"
 
-	"github.com/lamphanviet/goalgo/commons"
+	"github.com/lamphanviet/goalgo/gmath"
 )
 
 const (
-	MillerRabinIteration = 50
+	MillerRabinIteration = 2
 )
 
 // Eratosthenes returns list of primes number in range [2, n - 1]
@@ -43,6 +43,9 @@ func Eratosthenes(n int64) (primes []int64, isPrime []bool) {
 
 // IsPrime tests a prime number by going through list of primes
 func IsPrime(p int64, primes []int64) bool {
+	if p < 2 {
+		return false
+	}
 	for i := 0; i < len(primes) && primes[i]*primes[i] <= p; i++ {
 		if p%primes[i] == 0 {
 			return false
@@ -71,6 +74,7 @@ func IsPrimeSqrt(p int64) bool {
 }
 
 // IsPrimeMiller tests a prime number using MillerRabin algorithm
+// References: https://www.topcoder.com/community/data-science/data-science-tutorials/primality-testing-non-deterministic-algorithms/
 func IsPrimeMiller(p int64, iteration int) bool {
 	if p < 2 {
 		return false
@@ -83,10 +87,10 @@ func IsPrimeMiller(p int64, iteration int) bool {
 		s /= 2
 	}
 	for i := 0; i < iteration; i++ {
-		a, temp := rand.Int63()%(p-1)+1, s
-		mod := commons.PowModulo(a, temp, p)
+		a, temp := (rand.Int63()%(p-1))+1, s
+		mod := gmath.PowModulo(a, temp, p)
 		for temp != p-1 && mod != 1 && mod != p-1 {
-			mod = commons.PowModulo(mod, mod, p)
+			mod = gmath.PowModulo(mod, mod, p)
 			temp *= 2
 		}
 		if mod != p-1 && temp%2 == 0 {

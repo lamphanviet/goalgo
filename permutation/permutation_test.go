@@ -6,7 +6,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	. "github.com/lamphanviet/goalgo/algorithms/permutation"
+	. "github.com/lamphanviet/goalgo/permutation"
 )
 
 var (

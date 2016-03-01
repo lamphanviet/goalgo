@@ -1,5 +1,5 @@
 // Copyright 2015 @lamphanviet. All rights reserved.
-package commons
+package gmath
 
 // Calculate base^exponent in O(log(exponent))
 func Pow(base int64, exponent int64) int64 {

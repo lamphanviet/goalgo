@@ -1,6 +1,6 @@
 // Copyright 2015 @lamphanviet. All rights reserved.
 
-package commons_test
+package gmath_test
 
 import (
 	"math/rand"
@@ -8,7 +8,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	. "github.com/lamphanviet/goalgo/commons"
+	. "github.com/lamphanviet/goalgo/gmath"
 )
 
 func TestPow(t *testing.T) {
