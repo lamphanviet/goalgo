@@ -3,66 +3,57 @@ package permutation_test
 
 import (
 	"testing"
-	. "../permutation"
+
+	"github.com/stretchr/testify/assert"
+
+	. "github.com/lamphanviet/goalgo/algorithms/permutation"
 )
 
-func equalIntSlice(a, b []int) bool {
-	if a == nil || b == nil {
-		if a == nil && b == nil {
-			return true
-		}
-		return false
+var (
+	testArrays = [][]int{
+		{1, 2, 3, 3},
+		{1, 3, 2, 3},
+		{1, 3, 3, 2},
+		{2, 1, 3, 3},
+		{2, 3, 1, 3},
+		{2, 3, 3, 1},
+		{3, 1, 2, 3},
+		{3, 1, 3, 2},
+		{3, 2, 1, 3},
+		{3, 2, 3, 1},
+		{3, 3, 1, 2},
+		{3, 3, 2, 1},
 	}
-
-	if len(a) != len(b) {
-		return false
-	}
-
-	for i := range a {
-		if a[i] != b[i] {
-			return false
-		}
-	}
-
-	return true
-}
+)
 
 func TestNextIntSlice(t *testing.T) {
-	data := []int{1, 2, 3}
-	ok := NextInts(data)
-	if !ok || !equalIntSlice(data, []int{1, 3, 2}) {
-		t.Errorf("next permutation %v", data)
-	}
-
-	data = []int{1, 1, 2}
-	ok = NextInts(data)
-	if !ok || !equalIntSlice(data, []int{1, 2, 1}) {
-		t.Errorf("next permutation %v", data)
-	}
-
-	data = []int{3, 2, 1}
-	ok = NextInts(data)
-	if ok || !equalIntSlice(data, []int{3, 2, 1}) {
-		t.Errorf("next permutation %v", data)
+	n := len(testArrays)
+	a := make([]int, len(testArrays[0]))
+	copy(a, testArrays[0])
+	for i := 1; i <= n; i++ {
+		ok := NextInts(a)
+		if i == n {
+			assert.False(t, ok)
+			assert.Equal(t, testArrays[n-1], a)
+		} else {
+			assert.True(t, ok)
+			assert.Equal(t, testArrays[i], a)
+		}
 	}
 }
 
 func TestPrevIntSlice(t *testing.T) {
-	data := []int{3, 2, 1}
-	ok := PrevInts(data)
-	if !ok || !equalIntSlice(data, []int{3, 1, 2}) {
-		t.Errorf("prev permutation %v", data)
-	}
-
-	data = []int{2, 1, 1}
-	ok = PrevInts(data)
-	if !ok || !equalIntSlice(data, []int{1, 2, 1}) {
-		t.Errorf("prev permutation %v", data)
-	}
-
-	data = []int{1, 2, 3}
-	ok = PrevInts(data)
-	if ok || !equalIntSlice(data, []int{1, 2, 3}) {
-		t.Errorf("prev permutation %v", data)
+	n := len(testArrays)
+	a := make([]int, len(testArrays[n-1]))
+	copy(a, testArrays[n-1])
+	for i := n - 2; i >= -1; i-- {
+		ok := PrevInts(a)
+		if i < 0 {
+			assert.False(t, ok)
+			assert.Equal(t, testArrays[0], a)
+		} else {
+			assert.True(t, ok)
+			assert.Equal(t, testArrays[i], a)
+		}
 	}
 }

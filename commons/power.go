@@ -6,7 +6,7 @@ func Pow(base int64, exponent int64) int64 {
 	res := int64(1)
 	mul := base
 	for exponent > 0 {
-		if exponent & 1 != 0{
+		if exponent&1 != 0 {
 			res *= mul
 		}
 		mul *= mul
@@ -20,7 +20,7 @@ func PowModulo(base int64, exponent int64, mod int64) int64 {
 	res := int64(1)
 	mul := base % mod
 	for exponent > 0 {
-		if exponent & 1 != 0 {
+		if exponent&1 != 0 {
 			res = (res * mul) % mod
 		}
 		mul = (mul * mul) % mod

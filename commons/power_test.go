@@ -3,10 +3,25 @@
 package commons_test
 
 import (
-	"testing"
-	. "../commons"
 	"math/rand"
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+
+	. "github.com/lamphanviet/goalgo/commons"
 )
+
+func TestPow(t *testing.T) {
+	assert.Equal(t, int64(1), Pow(0, 0))
+	assert.Equal(t, int64(0), Pow(0, 5))
+	assert.Equal(t, int64(1), Pow(1, 0))
+	assert.Equal(t, int64(1), Pow(1, 5))
+	assert.Equal(t, int64(2), Pow(2, 1))
+	assert.Equal(t, int64(32), Pow(2, 5))
+	assert.Equal(t, int64(1024), Pow(2, 10))
+	assert.Equal(t, int64(1024), Pow(2, 10))
+	assert.Equal(t, int64(2176782336), Pow(6, 12))
+}
 
 func TestPowModulo(t *testing.T) {
 	const mod = 1000000007
@@ -15,15 +30,13 @@ func TestPowModulo(t *testing.T) {
 		base := rand.Int63() % mod
 		exponent := rand.Int63() % 100000
 
-		result := PowModulo(base, exponent, mod)
-		testResult := int64(1)
+		actual := PowModulo(base, exponent, mod)
+		expected := int64(1)
 		for j := int64(0); j < exponent; j++ {
-			testResult = (testResult * base) % mod
+			expected = (expected * base) % mod
 		}
 
-		if result != testResult {
-			t.Errorf("powModulo %v^%v = %v, correct is %v", base, exponent, result, testResult)
-		}
+		assert.Equal(t, expected, actual)
 	}
 
 	// test speed: fail if this run forever!

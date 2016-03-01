@@ -5,20 +5,24 @@ package primes
 
 import (
 	"math/rand"
-	"../../commons"
+
+	"github.com/lamphanviet/goalgo/commons"
 )
 
-// Return list of primes to n and array of bool
-// Complexity: O(nloglogn)
-func Eratosthenes(n int) (isPrime []bool, primes []int) {
+const (
+	MillerRabinIteration = 50
+)
+
+// Eratosthenes returns list of primes number in range [2, n - 1]
+func Eratosthenes(n int64) (primes []int64, isPrime []bool) {
 	isPrime = make([]bool, n)
-	for i := 2; i < n; i++ {
+	for i := int64(2); i < n; i++ {
 		isPrime[i] = true
 	}
-	for i := 4; i < n; i += 2 {
+	for i := int64(4); i < n; i += 2 {
 		isPrime[i] = false
 	}
-	for i := 3; i * i < n; i += 2 {
+	for i := int64(3); i*i < n; i += 2 {
 		if isPrime[i] {
 			for j := i * i; j < n; j += i + i {
 				isPrime[j] = false
@@ -26,67 +30,68 @@ func Eratosthenes(n int) (isPrime []bool, primes []int) {
 		}
 	}
 
-	primes = make([]int, 0)
+	primes = make([]int64, 0)
 	primes = append(primes, 2)
-	for i := 3; i < n; i += 2 {
+	for i := int64(3); i < n; i += 2 {
 		if isPrime[i] {
 			primes = append(primes, i)
 		}
 	}
 
-	return isPrime, primes
+	return primes, isPrime
 }
 
-func IsPrime(p int64, primes []int) {
-	for i := 0; i < len(primes) && primes[i] * primes[i] <= p; i++ {
-		if p % primes[i] == 0 {
+// IsPrime tests a prime number by going through list of primes
+func IsPrime(p int64, primes []int64) bool {
+	for i := 0; i < len(primes) && primes[i]*primes[i] <= p; i++ {
+		if p%primes[i] == 0 {
 			return false
 		}
 	}
 	return true
 }
 
-func IsPrimeSqrt(p int64) {
+// IsPrimeSqrt tests a prime number with complexity is O(sqrt(p))
+func IsPrimeSqrt(p int64) bool {
 	if p < 2 {
 		return false
 	}
 	if p == 2 {
 		return true
 	}
-	if p % 2 == 0 {
+	if p%2 == 0 {
 		return false
 	}
-	for i := 3; i * i <= p; i += 2 {
-		if p % i == 0 {
+	for i := int64(3); i*i <= p; i += 2 {
+		if p%i == 0 {
 			return false
 		}
 	}
 	return true
 }
 
-// testing a prime number using MillerRabin algorithm
+// IsPrimeMiller tests a prime number using MillerRabin algorithm
 func IsPrimeMiller(p int64, iteration int) bool {
 	if p < 2 {
-		return false;
+		return false
 	}
-	if p != 2 && p % 2 == 0 {
-		return false;
+	if p != 2 && p%2 == 0 {
+		return false
 	}
-	s := p - 1;
-	for (s % 2 == 0) {
-		s /= 2;
+	s := p - 1
+	for s%2 == 0 {
+		s /= 2
 	}
 	for i := 0; i < iteration; i++ {
-		a, temp := rand.Int() % (p - 1) + 1, s
-		mod := commons.PowModulo(a, temp, p);
-		for temp != p - 1 && mod != 1 && mod != p - 1 {
-		mod = commons.PowModulo(mod, mod, p);
-		temp *= 2;
+		a, temp := rand.Int63()%(p-1)+1, s
+		mod := commons.PowModulo(a, temp, p)
+		for temp != p-1 && mod != 1 && mod != p-1 {
+			mod = commons.PowModulo(mod, mod, p)
+			temp *= 2
 		}
-		if mod != p - 1 && temp % 2 == 0 {
-			return false;
+		if mod != p-1 && temp%2 == 0 {
+			return false
 		}
 	}
-	return true;
+	return true
 }
-
